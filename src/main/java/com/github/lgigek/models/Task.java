@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
@@ -15,6 +16,7 @@ public class Task {
 
     @Id
     private ObjectId _id;
+    @Indexed(unique = true)
     private String name;
     private String description;
     private String status;
