@@ -1,6 +1,7 @@
 package com.github.lgigek.helpers;
 
 import com.github.lgigek.helpers.exceptions.TaskAlreadyCreatedException;
+import com.github.lgigek.helpers.exceptions.TaskNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -28,5 +29,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         logger.error("Failed to create the new task. Error: {}", e.getMessage());
 
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {TaskNotFoundException.class})
+    public ResponseEntity taskNotCreated(Exception e){
+
+        logger.warn(e.getMessage());
+
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 }
