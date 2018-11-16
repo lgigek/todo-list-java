@@ -19,6 +19,6 @@ public class Task {
     @Indexed(unique = true)
     private String name;
     private String description;
-    private String status;
+    private TaskStatus status;
 
 }
