@@ -2,6 +2,7 @@ package com.github.lgigek.controllers;
 
 import com.github.lgigek.business.TaskBusiness;
 import com.github.lgigek.models.Task;
+import com.github.lgigek.models.TaskStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,14 @@ public class TaskController {
         logger.info("Returning all tasks.");
 
         return taskBusiness.getAllTasks();
+    }
+
+    @RequestMapping(value = "getByStatus", method = RequestMethod.GET)
+    public List<Task> getByStatus(@RequestHeader(value = "status") TaskStatus status) {
+
+        logger.info("Returning tasks with status \"{}\"", status);
+
+        return taskBusiness.getTaskByStatus(status);
     }
 
     @RequestMapping(value = "getByName", method = RequestMethod.GET)

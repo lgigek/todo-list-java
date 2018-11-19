@@ -3,6 +3,7 @@ package com.github.lgigek.business;
 import com.github.lgigek.helpers.exceptions.TaskAlreadyCreatedException;
 import com.github.lgigek.helpers.exceptions.TaskNotFoundException;
 import com.github.lgigek.models.Task;
+import com.github.lgigek.models.TaskStatus;
 import com.github.lgigek.repository.TaskRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +31,11 @@ public class TaskBusiness {
     public List<Task> getAllTasks() {
 
         return taskRepository.findAll();
+    }
+
+    public List<Task> getTaskByStatus(TaskStatus status) {
+
+        return taskRepository.findByStatus(status);
     }
 
     public Task getTaskByName(String taskName) {
