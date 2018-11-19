@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/task")
 public class TaskController {
 
     private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
@@ -30,16 +31,16 @@ public class TaskController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "getAllTasks", method = RequestMethod.GET)
-    public List<Task> getAllTasks() {
+    @RequestMapping(value = "getAll", method = RequestMethod.GET)
+    public List<Task> get() {
 
         logger.info("Returning all tasks.");
 
         return taskBusiness.getAllTasks();
     }
 
-    @RequestMapping(value = "getTaskByName", method = RequestMethod.GET)
-    public Task getTaskByName(@RequestHeader(value = "name") String taskName) {
+    @RequestMapping(value = "getByName", method = RequestMethod.GET)
+    public Task getByName(@RequestHeader(value = "name") String taskName) {
 
         logger.info("Returning task named \"{}\".", taskName);
 
