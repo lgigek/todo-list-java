@@ -40,6 +40,14 @@ public class TaskBusiness {
             return task.get();
         } else
             throw new TaskNotFoundException(taskName);
+    }
 
+    public void deleteByName(String taskName) {
+
+        Optional<Task> task = taskRepository.findByName(taskName);
+        if (task.isPresent()) {
+            taskRepository.delete(task.get());
+        } else
+            throw new TaskNotFoundException(taskName);
     }
 }

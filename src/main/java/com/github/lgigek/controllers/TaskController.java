@@ -46,4 +46,13 @@ public class TaskController {
 
         return taskBusiness.getTaskByName(taskName);
     }
+
+    @RequestMapping(value = "delete", method = RequestMethod.DELETE)
+    public void delete(@RequestHeader(value = "name") String taskName) {
+
+        logger.info("Deleting task named \"{}\".", taskName);
+
+        taskBusiness.deleteByName(taskName);
+    }
+
 }
