@@ -25,7 +25,7 @@ public class TaskController {
     @GetMapping(value = REQUEST_PATH_TASK_GET_ALL)
     public List<Task> tasks() {
 
-        logger.info("Returning all tasks.");
+        logger.info("REST request to return all Tasks");
 
         return taskBusiness.getAllTasks();
     }
@@ -33,7 +33,7 @@ public class TaskController {
     @GetMapping(value = REQUEST_PATH_TASK_GET_OR_DELETE)
     public Task getByName(@PathVariable String name) {
 
-        logger.info("Returning task named \"{}\".", name);
+        logger.info("REST request to get Task: {}", name);
 
         return taskBusiness.getTaskByName(name);
     }
@@ -41,20 +41,19 @@ public class TaskController {
     @PostMapping(value = REQUEST_PATH_TASK_POST_OR_PUT)
     public ResponseEntity create(@RequestBody Task task) {
 
-        logger.info("Creating a new task with name \"{}\".", task.getName());
+        logger.info("REST request to save Task: {}", task.getName());
 
         taskBusiness.createTask(task);
 
-        logger.info("Task named \"{}\" was created successfully.", task.getName());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = REQUEST_PATH_TASK_POST_OR_PUT)
-    public void delete(@PathVariable String criteria) {
+    public void delete(@PathVariable String name) {
 
-        logger.info("Deleting task named \"{}\".", criteria);
+        logger.info("REST request to delete Task: {}", name);
 
-        taskBusiness.deleteByName(criteria);
+        taskBusiness.deleteByName(name);
     }
 
 }
