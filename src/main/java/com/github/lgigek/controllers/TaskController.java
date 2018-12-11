@@ -2,7 +2,6 @@ package com.github.lgigek.controllers;
 
 import com.github.lgigek.business.TaskBusiness;
 import com.github.lgigek.models.Task;
-import com.github.lgigek.models.TaskStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.github.lgigek.controllers.components.UrlBuilder.*;
+
 @RestController
-@RequestMapping("/api/task")
+@RequestMapping(REQUEST_PATH_API)
 public class TaskController {
 
     private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
@@ -21,7 +22,23 @@ public class TaskController {
     @Autowired
     private TaskBusiness taskBusiness;
 
-    @RequestMapping(value = "create", method = RequestMethod.POST)
+    @GetMapping(value = REQUEST_PATH_TASK_GET_ALL)
+    public List<Task> tasks() {
+
+        logger.info("Returning all tasks.");
+
+        return taskBusiness.getAllTasks();
+    }
+
+    @GetMapping(value = REQUEST_PATH_TASK_GET_OR_DELETE)
+    public Task getByName(@PathVariable String name) {
+
+        logger.info("Returning task named \"{}\".", name);
+
+        return taskBusiness.getTaskByName(name);
+    }
+
+    @PostMapping(value = REQUEST_PATH_TASK_POST_OR_PUT)
     public ResponseEntity create(@RequestBody Task task) {
 
         logger.info("Creating a new task with name \"{}\".", task.getName());
@@ -32,36 +49,12 @@ public class TaskController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "getAll", method = RequestMethod.GET)
-    public List<Task> get() {
+    @DeleteMapping(value = REQUEST_PATH_TASK_POST_OR_PUT)
+    public void delete(@PathVariable String criteria) {
 
-        logger.info("Returning all tasks.");
+        logger.info("Deleting task named \"{}\".", criteria);
 
-        return taskBusiness.getAllTasks();
-    }
-
-    @RequestMapping(value = "getByStatus", method = RequestMethod.GET)
-    public List<Task> getByStatus(@RequestHeader(value = "status") TaskStatus status) {
-
-        logger.info("Returning tasks with status \"{}\"", status);
-
-        return taskBusiness.getTaskByStatus(status);
-    }
-
-    @RequestMapping(value = "getByName", method = RequestMethod.GET)
-    public Task getByName(@RequestHeader(value = "name") String taskName) {
-
-        logger.info("Returning task named \"{}\".", taskName);
-
-        return taskBusiness.getTaskByName(taskName);
-    }
-
-    @RequestMapping(value = "delete", method = RequestMethod.DELETE)
-    public void delete(@RequestHeader(value = "name") String taskName) {
-
-        logger.info("Deleting task named \"{}\".", taskName);
-
-        taskBusiness.deleteByName(taskName);
+        taskBusiness.deleteByName(criteria);
     }
 
 }

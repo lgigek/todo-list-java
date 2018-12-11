@@ -33,11 +33,6 @@ public class TaskBusiness {
         return taskRepository.findAll();
     }
 
-    public List<Task> getTaskByStatus(TaskStatus status) {
-
-        return taskRepository.findByStatus(status);
-    }
-
     public Task getTaskByName(String taskName) {
 
         Optional<Task> task = taskRepository.findByName(taskName);
